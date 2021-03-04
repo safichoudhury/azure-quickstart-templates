@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
@@ -38,7 +38,7 @@
       "metadata": {
         "description": "The number of vms to  provision initially in the scale set"
       },
-      "defaultValue": "2"
+      "defaultValue": 2
     },
     "virtualNetworkAddressRange": {
       "type": "string",

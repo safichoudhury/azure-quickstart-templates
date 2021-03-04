@@ -1,26 +1,21 @@
 # SAP NetWeaver 3-tier multi SID (A)SCS (managed disks)
 
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/PublicLastTestDate.svg" />&nbsp;
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/PublicDeployment.svg" />&nbsp;
+![Azure Public Test Date](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/PublicLastTestDate.svg)
+![Azure Public Test Result](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/PublicDeployment.svg)
 
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/FairfaxLastTestDate.svg" />&nbsp;
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/FairfaxDeployment.svg" />&nbsp;
+![Azure US Gov Last Test Date](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/FairfaxLastTestDate.svg)
+![Azure US Gov Last Test Result](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/FairfaxDeployment.svg)
 
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/BestPracticeResult.svg" />&nbsp;
-<IMG SRC="https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/CredScanResult.svg" />&nbsp;
+![Best Practice Check](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/BestPracticeResult.svg)
+![Cred Scan Check](https://azurequickstartsservice.blob.core.windows.net/badges/sap-3-tier-marketplace-image-multi-sid-xscs-md/CredScanResult.svg)
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsap-3-tier-marketplace-image-multi-sid-xscs-md%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsap-3-tier-marketplace-image-multi-sid-xscs-md%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.png"/>
-</a>
+[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsap-3-tier-marketplace-image-multi-sid-xscs-md%2Fazuredeploy.json)  [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsap-3-tier-marketplace-image-multi-sid-xscs-md%2Fazuredeploy.json)
 
 This template is one of three templates for a 3-tier Multi SID SAP depoyment.
 
 * ASCS/SCS servers template (this template)
-* [Database servers Template](https://github.com/Azure/azure-quickstart-templates/tree/master/sap-3-tier-marketplace-image-multi-sid-db)
-* [Application servers template](https://github.com/Azure/azure-quickstart-templates/tree/master/sap-3-tier-marketplace-image-multi-sid-apps)
+* [Database servers Template](https://github.com/Azure/azure-quickstart-templates/tree/master/sap-3-tier-marketplace-image-multi-sid-db-md)
+* [Application servers template](https://github.com/Azure/azure-quickstart-templates/tree/master/sap-3-tier-marketplace-image-multi-sid-apps-md)
 
 It takes a minimum amount of parameters and deploys a VM that is customized for use with SAP NetWeaver, using the latest patched version of the selected operating system. This is a template for a 3-tier Multi SID configuration. It deploys 1 (no HA) or 2 (HA) ASCS/SCS servers on which multiple ASCS/SCS instances for multiple SAP system can be deployed. In case of a HA deployment, the ASCS/SCS servers are placed in an Availability Set and a Load Balancer is added to the ASCS/SCS servers to allow HA configurations in the operating system (e.g. Windows Failover Cluster).
 This template uses Managed Disks.
@@ -72,4 +67,5 @@ ERS Internal Load Balancer probe port (Linux only): **621x2**
 		<td>1xDS4_v2 ASCS/SCS Server (1xP10 per SAP System)</td>
 	</tr>
 </table>
+
 

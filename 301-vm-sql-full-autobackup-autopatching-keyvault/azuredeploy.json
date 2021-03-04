@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "virtualMachineName": {
@@ -125,7 +125,7 @@
       "metadata": {
         "description": "SQL Server Virtual Machine Data Disk Count"
       },
-      "defaultValue": "2"
+      "defaultValue": 2
     },
     "sqlStorageWorkloadType": {
       "type": "string",
@@ -137,7 +137,7 @@
         "OLTP",
         "DW"
       ],
-      "defaultValue": "General"
+      "defaultValue": "GENERAL"
     },
     "sqlAutopatchingDayOfWeek": {
       "type": "string",

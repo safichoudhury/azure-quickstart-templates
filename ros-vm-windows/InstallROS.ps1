@@ -1,59 +1,25 @@
-# download and unzip the ROS to the desired location
-$outputPath = Join-Path $(Get-Location) -ChildPath "output"
-$downloadPath = Join-Path $outputPath -ChildPath "sfx-installer.zip"
-$vcRedistPath = Join-Path $outputPath -ChildPath "vc_redist.x64.exe"
-$vcRedistPath_vs2010 = Join-Path $outputPath -ChildPath "vcredist_x64.exe"
+# Install Chocolatey package manager
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco source add -n=ros-win -s="https://aka.ms/ros/public" --priority=1
 
-$latestBuildUrl = 'https://dev.azure.com/ros-win/ros-win/_apis/build/builds?definitions=54&$top=1&resultFilter=succeeded&api-version=5.1'
-$vcRedistUrl = 'https://aka.ms/vs/16/release/vc_redist.x64.exe'
-$vcRedistUrl_vs2010 = 'https://download.microsoft.com/download/3/2/2/3224B87F-CFA0-4E70-BDA3-3DE650EFEBA5/vcredist_x64.exe'
+# Install ROS1 - Melodic
+choco upgrade ros-melodic-desktop_full -y --execution-timeout=0 -i
 
-New-Item -ItemType directory -Path $outputPath
+# Install ROS1 - Noetic
+choco upgrade ros-noetic-desktop_full -y --execution-timeout=0 -i
 
-$retryCount = 3
-$retries = 1
-Write-Verbose "Downloading ROS install files" -verbose
-do
-{
-    try
-    {
-        $response = Invoke-RestMethod $latestBuildUrl -Method Get -ContentType 'application/json'
-        $buildId = $response.value[0].id
+# Install ROS2
+choco upgrade ros-foxy-desktop -y --execution-timeout=0 -i
 
-        $artifactUrl = "https://ros-win.visualstudio.com/bed058dd-46da-4029-bb85-25eae7674d09/_apis/build/builds/$buildId/artifacts?artifactName=sfx-installer&api-version=5.2-preview.5&%24format=zip"
-
-        $download = New-Object net.webclient
-        $download.Downloadfile($artifactUrl, $downloadPath)
-        $download.DownloadFile($vcRedistUrl, $vcRedistPath)
-        $download.DownloadFile($vcRedistUrl_vs2010, $vcRedistPath_vs2010)
-        Write-Verbose "Downloaded install files successfully on attempt $retries" -verbose
-        break
-    }
-    catch
-    {
-        $exceptionText = ($_ | Out-String).Trim()
-        Write-Verbose "Exception occured downloading install files: $exceptionText in try number $retries" -verbose
-        $retries++
-        Start-Sleep -Seconds 30
-    }
-}
-while ($retries -le $retryCount)
-
-Expand-Archive -path $downloadPath -destinationpath $outputPath
-$sfxPath = Join-Path $outputPath -ChildPath "sfx-installer/ros-melodic-desktop_full.exe"
-
-Write-Verbose "Installing Microsoft Visual C++ 2015-2019 redistributable packages" -verbose
-Start-Process "$vcRedistPath" -ArgumentList "/q","/norestart","/log","vcredistinstall.log" -NoNewWindow -Wait
-
-Write-Verbose "Installing Microsoft Visual C++ 2010 redistributable packages" -verbose
-Start-Process "$vcRedistPath_vs2010" -ArgumentList "/q","/norestart","/log","vcredistinstall.log" -NoNewWindow -Wait
-
-Write-Verbose "Installing ROS binaries" -verbose
-Start-Process "$sfxPath" -ArgumentList "-oc:\","-y" -NoNewWindow -Wait
-
-# finally enable RemotePS
+# finally enable RemotePS 
 Enable-PSRemoting -Force -SkipNetworkProfileCheck
 New-NetFirewallRule -Name "Allow WinRM HTTPS" -DisplayName "WinRM HTTPS" -Enabled True -Profile Any -Action Allow -Direction Inbound -LocalPort 5986 -Protocol TCP
 $thumbprint = (New-SelfSignedCertificate -DnsName $env:COMPUTERNAME -CertStoreLocation Cert:\LocalMachine\My).Thumbprint
 $command = "winrm create winrm/config/Listener?Address=*+Transport=HTTPS @{Hostname=""$env:computername""; CertificateThumbprint=""$thumbprint""}"
 cmd.exe /C $command
+
+# adding telemetry footprint
+$localDeviceIdPath = "HKLM:SOFTWARE\Microsoft\SQMClient"
+$localDeviceIdName = "MachineId"
+$localDeviceIdValue = "{df713376-9b62-46d6-a363-cede5b1bf2c5}"
+New-ItemProperty -Path $localDeviceIdPath -Name $localDeviceIdName -Value $localDeviceIdValue -PropertyType String -Force | Out-Null
